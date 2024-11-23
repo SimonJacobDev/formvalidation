@@ -1,143 +1,135 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Form Validation</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f0f0f0; /* Background color */
-        }
+    <title>Form Validation</title>
+    <script type="text/javascript">
+        function validateForm() {
+            var firstName = document.forms.f.name1.value;
+            var lastName = document.forms.f.name2.value;
+            var email = document.forms.f.email.value;
+            var altEmail = document.forms.f.altmail.value;
+            var password = document.forms.f.password.value;
+            var confirmPassword = document.forms.f.confirmpassword.value;
+            var phone = document.forms.f.phone.value;
+            var gender = document.forms.f.r1;
+            var country = document.forms.f.country.value;
+            var languages = document.forms.f.language;
+            var terms = document.forms.f.confirm;
+            var selectedGender = null;
+            var selectedLanguage = null;
 
-        .form-container {
-            background-color: #f0f0f0; /* Same background color as the body */
-            padding: 20px;
-            border-radius: 8px;
-            width: 300px;
-            box-sizing: border-box;
-            border: 1px solid #ccc; /* Optional: add a border to define the form edges */
+            if (firstName == null || firstName.trim() === "") {
+                alert("Enter first name");
+                return false;
+            }
+            if (!(/^[a-zA-Z]+$/).test(firstName)) {
+                alert("First name should contain only letters");
+                return false;
+            }
+            if (lastName == null || lastName.trim() === "") {
+                alert("Enter last name");
+                return false;
+            }
+            if (!(/^[a-zA-Z]+$/).test(lastName)) {
+                alert("Last name should contain only letters");
+                return false;
+            }
+            if (!(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/).test(email)) {
+                alert("Enter a valid email address");
+                return false;
+            }
+            if (!(/^\d{10}$/).test(phone)) {
+                alert("Phone number must be exactly 8 digits");
+                return false;
+            }
+            if (password.length < 6) {
+                alert("Password must be at least 6 characters long");
+                return false;
+            }
+            if (password !== confirmPassword) {
+                alert("Passwords do not match");
+                return false;
+            }
+            for (var i = 0; i < gender.length; i++) {
+                if (gender[i].checked) {
+                    selectedGender = gender[i].value;
+                }
+            }
+            if (!selectedGender) {
+                alert("Select gender");
+                return false;
+            }
+            if (country === "000") {
+                alert("Select a country");
+                return false;
+            }
+            for (var i = 0; i < languages.length; i++) {
+                if (languages[i].checked) {
+                    selectedLanguage = languages[i].value;
+                }
+            }
+            if (!selectedLanguage) {
+                alert("Select at least one language");
+                return false;
+            }
+            if (!(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/).test(altEmail)) {
+                alert("Enter a valid alternate email address");
+                return false;
+            }
+            if (altEmail === email) {
+                alert("Alternate email must be different from the primary email");
+                return false;
+            }
+            if (!terms.checked) {
+                alert("You must agree to the terms and conditions");
+                return false;
+            }
+            alert("Form submitted successfully!");
+            var z = window.open("", "Submission Details", "width=350,height=350");
+            z.document.writeln("<h3>Name: " + firstName + " " + lastName + "</h3>");
+            z.document.writeln("<h3>Gender: " + selectedGender + "</h3>");
+            z.document.writeln("<h3>Country: " + country + "</h3>");
+            z.document.writeln("<h3>Language: " + selectedLanguage + "</h3>");
+            z.document.writeln("<h3>Email: " + email + "</h3>");
+            z.document.writeln("<h3>Alternate Email: " + altEmail + "</h3>");
         }
-
-        h3 {
-            text-align: center;
-        }
-
-        form {
-            margin: 10px 0;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin: 5px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            border: none;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .error {
-            color: red;
-            font-size: 12px;
-        }
-    </style>
+    </script>
 </head>
 <body>
-
-<div id="regForm" class="form-container">
-    <h3>Registration</h3>
-    <form onsubmit="return validate('reg')">
-        <input type="text" id="regName" placeholder="Name">
-        <input type="email" id="regEmail" placeholder="Email">
-        <input type="password" id="regPassword" placeholder="Password">
-        <input type="submit" value="Register">
-        <div id="regError" class="error"></div>
+    <form name="f" onsubmit="return validateForm()" method="post">
+        <h1 align="center">Email</h1>
+        <h2 align="center">New User Signup Form</h2>
+        <p>
+            <label>First Name: <input name="name1" type="text" size="20"></label>
+            <label>Last Name: <input name="name2" type="text" size="20"></label><br>
+            <label>Email: <input name="email" type="text" size="20"></label><br>
+            <label>Phone Number: <input name="phone" type="number" size="10"></label><br>
+            <label>Password: <input name="password" type="password" size="20"></label><br>
+            <label>Confirm Password: <input name="confirmpassword" type="password" size="20"></label><br>
+            Gender: 
+            <input type="radio" name="r1" value="Male">Male 
+            <input type="radio" name="r1" value="Female">Female<br>
+            Country: 
+            <select name="country">
+                <option value="000" selected="selected">Select country</option>
+                <option value="Austria">Austria</option>
+                <option value="Tokyo">Tokyo</option>
+                <option value="India">India</option>
+                <option value="Beijing">Beijing</option>
+            </select><br>
+            Languages Known: 
+            <input type="checkbox" name="language" value="Tamil">Tamil 
+            <input type="checkbox" name="language" value="English">English 
+            <input type="checkbox" name="language" value="Hindi">Hindi 
+            <input type="checkbox" name="language" value="Malayalam">Malayalam<br>
+            <label>Alternate Email: <input name="altmail" type="text" size="20"></label><br>
+        </p>
+        <center>
+            <input type="checkbox" name="confirm">I agree to the terms and conditions<br>
+            <input type="submit" value="Submit">
+            <input type="reset" value="Reset">
+        </center>
     </form>
-</div>
-
-<div id="loginForm" class="form-container hidden">
-    <h3>Login</h3>
-    <form onsubmit="return validate('login')">
-        <input type="email" id="loginEmail" placeholder="Email">
-        <input type="password" id="loginPassword" placeholder="Password">
-        <input type="submit" value="Login">
-        <div id="loginError" class="error"></div>
-    </form>
-</div>
-
-<div id="profileForm" class="form-container hidden">
-    <h3>Profile</h3>
-    <form onsubmit="return validate('profile')">
-        <input type="text" id="profileName" placeholder="Name">
-        <input type="text" id="profilePhone" placeholder="Phone (10 digits)" pattern="^\d{10}$">
-        <input type="submit" value="Update Profile">
-        <div id="profileError" class="error"></div>
-    </form>
-</div>
-
-<div id="paymentForm" class="form-container hidden">
-    <h3>Payment</h3>
-    <form onsubmit="return validate('payment')">
-        <input type="text" id="cardNumber" placeholder="Card Number" pattern="\d{16}">
-        <input type="date" id="expiryDate">
-        <input type="text" id="cvv" placeholder="CVV" pattern="\d{3}">
-        <input type="submit" value="Pay">
-        <div id="paymentError" class="error"></div>
-    </form>
-</div>
-
-<script>
-    function validate(form) {
-        let error = "";
-        if (form === 'reg') {
-            const name = document.getElementById('regName').value;
-            const email = document.getElementById('regEmail').value;
-            const password = document.getElementById('regPassword').value;
-            if (!name || !email || !password) error = "All fields are required.";
-            else if (password.length < 6) error = "Password too short.";
-            if (error) document.getElementById('regError').innerText = error;
-            else { document.getElementById('regForm').classList.add('hidden'); document.getElementById('loginForm').classList.remove('hidden'); }
-        } else if (form === 'login') {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            if (!email || !password) error = "Email and Password are required.";
-            if (error) document.getElementById('loginError').innerText = error;
-            else { document.getElementById('loginForm').classList.add('hidden'); document.getElementById('profileForm').classList.remove('hidden'); }
-        } else if (form === 'profile') {
-            const name = document.getElementById('profileName').value;
-            const phone = document.getElementById('profilePhone').value;
-            if (!name || !phone) error = "All fields are required.";
-            else if (!/^\d{10}$/.test(phone)) error = "Phone must be 10 digits.";
-            if (error) document.getElementById('profileError').innerText = error;
-            else { document.getElementById('profileForm').classList.add('hidden'); document.getElementById('paymentForm').classList.remove('hidden'); }
-        } else if (form === 'payment') {
-            const cardNumber = document.getElementById('cardNumber').value;
-            const expiryDate = document.getElementById('expiryDate').value;
-            const cvv = document.getElementById('cvv').value;
-            if (!cardNumber || !expiryDate || !cvv) error = "All fields are required.";
-            else if (!/^\d{16}$/.test(cardNumber)) error = "Card number must be 16 digits.";
-            else if (!/^\d{3}$/.test(cvv)) error = "CVV must be 3 digits.";
-            if (error) document.getElementById('paymentError').innerText = error;
-        }
-        return !error;
-    }
-</script>
-
 </body>
 </html>
